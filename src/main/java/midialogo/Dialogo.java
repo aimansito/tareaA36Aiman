@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -105,14 +106,39 @@ public class Dialogo extends javax.swing.JDialog implements ActionListener {
         });
 
         jCheckBox2.setText("Miscellaneous");
+        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
 
         jCheckBox3.setText("Dark");
+        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox3ActionPerformed(evt);
+            }
+        });
 
         jCheckBox4.setText("Pun");
+        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox4ActionPerformed(evt);
+            }
+        });
 
         jCheckBox5.setText("Spooky");
+        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox5ActionPerformed(evt);
+            }
+        });
 
         jCheckBox6.setText("Christmas");
+        jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,7 +228,7 @@ public class Dialogo extends javax.swing.JDialog implements ActionListener {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         // 1 -> Creamos la url
-        String urlfinal = crearURL(jComboBox1, jRadioButton1, jComboBox2);
+        String urlfinal = crearURL(jComboBox1, jRadioButton1,jCheckBox1,jCheckBox2,jCheckBox3,jCheckBox4,jCheckBox5,jCheckBox6, jComboBox2);
         System.out.println("URL Final:  " + urlfinal);
 
         // 2 -> Condicional para manejar la cantidad
@@ -244,11 +270,59 @@ public class Dialogo extends javax.swing.JDialog implements ActionListener {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
+        if(jCheckBox1.isSelected()){
+            jRadioButton1.setSelected(false);
+        }
+        
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
+        if (jRadioButton1.isSelected()) {
+        // Deselecciona los checkboxes
+        jCheckBox1.setSelected(false);
+        jCheckBox2.setSelected(false);
+        jCheckBox3.setSelected(false);
+        jCheckBox4.setSelected(false);
+        jCheckBox5.setSelected(false);
+        jCheckBox6.setSelected(false);
+        }
     }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox2.isSelected()) {
+            jRadioButton1.setSelected(false);
+        }
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
+
+    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox3.isSelected()) {
+            jRadioButton1.setSelected(false);
+        }
+    }//GEN-LAST:event_jCheckBox3ActionPerformed
+
+    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox4.isSelected()) {
+            jRadioButton1.setSelected(false);
+        }
+    }//GEN-LAST:event_jCheckBox4ActionPerformed
+
+    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox5.isSelected()) {
+            jRadioButton1.setSelected(false);
+        }
+    }//GEN-LAST:event_jCheckBox5ActionPerformed
+
+    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox6.isSelected()) {
+            jRadioButton1.setSelected(false);
+        }
+    }//GEN-LAST:event_jCheckBox6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -308,16 +382,26 @@ public class Dialogo extends javax.swing.JDialog implements ActionListener {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JRadioButton jRadioButton1;
     // End of variables declaration//GEN-END:variables
-     public static String crearURL(JComboBox<String> lang, JRadioButton radio, JComboBox<String> cantidad) {
+    public static String crearURL(JComboBox<String> lang, JRadioButton radio, JCheckBox primero, JCheckBox segundo, JCheckBox tercero, JCheckBox cuarto, JCheckBox quinto, JCheckBox sexto, JComboBox<String> cantidad) {
         String cantidadChistes = "&amount=";
+        String checkbox = "";
         if (Integer.parseInt(cantidad.getSelectedItem().toString()) >= 2) {
             cantidadChistes = cantidadChistes + cantidad.getSelectedItem().toString();
         } else {
             cantidadChistes = "";
         }
+        if(radio.isSelected()){
+            checkbox = "Any";
+            primero.setSelected(false);
+            segundo.setSelected(false);
+            tercero.setSelected(false);
+            cuarto.setSelected(false);
+            quinto.setSelected(false);
+            sexto.setSelected(false);
+        }
         String urlfinal
                 = URL_BASE
-                + radio.getText()
+                + checkbox
                 + "?lang=" + lang.getSelectedItem().toString()
                 + cantidadChistes;
         return urlfinal;
@@ -333,9 +417,9 @@ public class Dialogo extends javax.swing.JDialog implements ActionListener {
             if (lista.getJokes().get(i).getType().equals("twopart")) {
                 listaDevolver.add(lista.getJokes().get(i).getSetup() + " " + lista.getJokes().get(i).getDelivery());
             }
-//            else {
-//                listaDevolver.add(lista.getJokes().get(i).getJoke());
-//            }
+            else {
+                listaDevolver.add(lista.getJokes().get(i).getJoke());
+            }
 
 
         }
