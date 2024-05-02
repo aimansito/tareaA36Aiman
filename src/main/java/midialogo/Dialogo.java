@@ -4,14 +4,25 @@
  */
 package midialogo;
 
+import daw.ConexionHTTP;
+import daw.JsonService;
+import daw.ListaChistes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author aiman
  */
 public class Dialogo extends javax.swing.JDialog implements ActionListener {
+
+    public static final String URL_BASE = "https://v2.jokeapi.dev/joke/";
+    String chisteFinal = "";
 
     /**
      * Creates new form Dialogo
@@ -33,21 +44,17 @@ public class Dialogo extends javax.swing.JDialog implements ActionListener {
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jComboBox3 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Idioma: ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"CS-CZECH","DE-GERMAN", "EN-ENGLISH", "ES-SPANISH", "FR-FRENCH", "PR-PORTUGUESE"}));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"cs","de", "en", "es", "fr", "pr"}));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -56,33 +63,27 @@ public class Dialogo extends javax.swing.JDialog implements ActionListener {
 
         jLabel2.setText("Categoría: ");
 
-        jRadioButton1.setText("Cualquiera");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-
-        jRadioButton2.setText("Elegir categoría: ");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
-            }
-        });
-
-        jCheckBox1.setText("Programming");
-
-        jCheckBox2.setText("Miscellaneous");
-
-        jCheckBox3.setText("Dark");
-
-        jCheckBox4.setText("Spooky");
-
-        jCheckBox5.setText("Christmas");
-
         jLabel3.setText("Cantidad de Chistes: ");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5","6","7","8","9","10" }));
+
+        jButton1.setBackground(new java.awt.Color(255, 51, 51));
+        jButton1.setText("Salir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setBackground(new java.awt.Color(102, 102, 255));
+        jButton2.setText("Generar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Any", "Programming", "Miscellaneous", "Dark", "Pun", "Spooky", "Christmas"}));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,28 +94,24 @@ public class Dialogo extends javax.swing.JDialog implements ActionListener {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox5)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jCheckBox3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jCheckBox4))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addGap(31, 31, 31)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jCheckBox1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jCheckBox2))
-                            .addComponent(jRadioButton2)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRadioButton1)))
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                        .addGap(124, 124, 124)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,27 +120,19 @@ public class Dialogo extends javax.swing.JDialog implements ActionListener {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jRadioButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox5)
-                .addGap(9, 9, 9)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21))
         );
 
         pack();
@@ -151,16 +140,56 @@ public class Dialogo extends javax.swing.JDialog implements ActionListener {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+        // 1 -> Creamos la url
+        String urlfinal = crearURL(jComboBox1, jComboBox3, jComboBox2);
+        System.out.println("URL Final:  " + urlfinal);
+
+        // 2 -> Condicional para manejar la cantidad
+        if (Integer.parseInt(jComboBox2.getSelectedItem().toString()) > 1) {
+            try {
+                // Llama al método que muestra una lista de chistes
+                List<String> listaChistes = new ArrayList<>();
+                listaChistes = mostrarChistes(urlfinal);
+                chisteFinal = conversorListaString(listaChistes);
+                System.out.println("Chistes: " + chisteFinal);
+                JOptionPane.showMessageDialog(null, chisteFinal);
+            } catch (IOException ex) {
+                // Manejo de la excepción de IO
+                System.out.println("No hay chistes disponibles");
+                JOptionPane.showMessageDialog(null, "No hay chistes disponibles");
+                chisteFinal = "";
+            } 
+//            catch (Exception ex) {
+//                // Captura cualquier otra excepción
+//                System.out.println("Error inesperado: " + ex.getMessage());
+//                JOptionPane.showMessageDialog(null, "Error inesperado");
+//            }
+        } else {
+            try {
+                // Llama al método que muestra un chiste
+                String chiste = chisteConsola(urlfinal);
+                System.out.println(chiste);
+                chisteFinal = chiste;
+                System.out.println("Chistes: " + chisteFinal);
+                JOptionPane.showMessageDialog(null, chisteFinal);
+            } catch (IOException ex) {
+                // Manejo de la excepción de IO
+                System.out.println("No hay chistes disponibles");
+                JOptionPane.showMessageDialog(null, "No hay chistes disponibles");
+                chisteFinal = "";
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,22 +234,69 @@ public class Dialogo extends javax.swing.JDialog implements ActionListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     // End of variables declaration//GEN-END:variables
+     public static String crearURL(JComboBox<String> lang, JComboBox<String> categorias, JComboBox<String> cantidad) {
+        String cantidadChistes = "&amount=";
+        if (Integer.parseInt(cantidad.getSelectedItem().toString()) >= 2) {
+            cantidadChistes = cantidadChistes + cantidad.getSelectedItem().toString();
+        } else {
+            cantidadChistes = "";
+        }
+        String urlfinal
+                = URL_BASE
+                + categorias.getSelectedItem().toString()
+                + "?lang=" + lang.getSelectedItem().toString()
+                + cantidadChistes;
+        return urlfinal;
+    }
+
+    public static List<String> mostrarChistes(String urlfinal) throws IOException {
+        String fichero2 = ConexionHTTP.peticionHttpGet(urlfinal);
+        ListaChistes lista = (ListaChistes) JsonService.stringToPojo(fichero2, ListaChistes.class);
+        List<String> listaDevolver = new ArrayList<>();
+        for (int i = 0; i < lista.getJokes().size(); i++) {
+            if (lista.getJokes().get(i).getType().equals("twopart")) {
+                listaDevolver.add(lista.getJokes().get(i).getSetup() + " " + lista.getJokes().get(i).getDelivery());
+            } else {
+                listaDevolver.add(lista.getJokes().get(i).getJoke());
+            }
+
+        }
+        return listaDevolver;
+    }
+
+    public static String chisteConsola(String urlfinal) throws IOException {
+        String chisteDevolver = "";
+        String fichero = ConexionHTTP.peticionHttpGet(urlfinal);
+        Joke chiste = (Joke) JsonService.stringToPojo(fichero, Joke.class);
+
+        if (chiste.getType().equals("twopart")) {
+            chisteDevolver = chiste.getSetup() + " " + chiste.getDelivery();
+        } else if (chiste instanceof Joke) {
+            chisteDevolver = chiste.getSetup();
+        }
+        return chisteDevolver;
+    }
+
+    public static String conversorListaString(List<String> listaStrings) {
+        String chistes = "";
+        for (int i = 0; i < listaStrings.size(); i++) {
+            chistes += (i + 1) + " --> " + listaStrings.get(i) + "\n";
+        }
+        return chistes;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
     }
+
 }

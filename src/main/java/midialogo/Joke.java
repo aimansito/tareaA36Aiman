@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package daw;
+package midialogo;
 
+import daw.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -165,6 +166,10 @@ public class Joke {
     @Override
     public String toString() {
         return "Chiste{" + "error=" + error + ", category=" + category + ", type=" + type + ", setup=" + setup + ", delivery=" + delivery + ", flags=" + flags + ", safe=" + safe + ", id=" + id + ", lang=" + lang + '}';
+    }
+
+    public String getJoke() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

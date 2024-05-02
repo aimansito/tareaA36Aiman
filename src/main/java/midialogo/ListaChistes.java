@@ -1,6 +1,7 @@
 
-package daw;
+package midialogo;
 
+import daw.*;
 import java.util.ArrayList;
 import java.util.List;
 

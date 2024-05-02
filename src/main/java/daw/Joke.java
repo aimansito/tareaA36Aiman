@@ -166,6 +166,10 @@ public class Joke {
     public String toString() {
         return "Chiste{" + "error=" + error + ", category=" + category + ", type=" + type + ", setup=" + setup + ", delivery=" + delivery + ", flags=" + flags + ", safe=" + safe + ", id=" + id + ", lang=" + lang + '}';
     }
+
+    public String getJoke() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
 
